@@ -215,6 +215,9 @@ class SearchBar<T> extends StatefulWidget {
   /// Set a padding on the list
   final EdgeInsetsGeometry listPadding;
 
+  ///Set ScrollController from the outside to use with DraggableScrollableSheet
+  final ScrollController scrollController;
+
   SearchBar({
     Key key,
     @required this.onSearch,
@@ -246,6 +249,7 @@ class SearchBar<T> extends StatefulWidget {
     this.listPadding = const EdgeInsets.all(0),
     this.searchBarPadding = const EdgeInsets.all(0),
     this.headerPadding = const EdgeInsets.all(0),
+    this.scrollController
   }) : super(key: key);
 
   @override
@@ -261,12 +265,14 @@ class _SearchBarState<T> extends State<SearchBar<T>>
   bool _animate = false;
   List<T> _list = [];
   SearchBarController searchBarController;
+  ScrollController scrollController;
 
   @override
   void initState() {
     super.initState();
     searchBarController =
         widget.searchBarController ?? SearchBarController<T>();
+    scrollController = widget.scrollController ?? ScrollController();
     searchBarController.setListener(this);
     searchBarController.setTextController(_searchQueryController, widget.minimumChars);
   }
